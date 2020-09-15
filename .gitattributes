@@ -1,0 +1,5 @@
+*.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
+*.less linguist-language=Less
+*.vue linguist-language=Vue
+*.html linguist-language=Canvas
