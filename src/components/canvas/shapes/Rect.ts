@@ -21,6 +21,13 @@ export interface MiRectConfig extends MiShapeConfig {
 	solid?: boolean;
 }
 
+export interface MiRectPointConfig {
+	lt: {x: number; y: number};
+	rt: {x: number; y: number};
+	rb: {x: number; y: number};
+	lb: {x: number; y: number};
+}
+
 export class Rect extends Shape<MiRectConfig> {
 	x: number;
 	y: number;

@@ -26,6 +26,7 @@ import {Eraser} from '@components/canvas/tools/Eraser';
 import {Text} from '@components/canvas/tools/Text';
 import {Arrow} from '@components/canvas/tools/Arrow';
 import {Laser} from '@components/canvas/tools/Laser';
+import {Screenshot} from '@components/canvas/tools/Screenshot';
 
 declare global {
 	interface Window {
@@ -346,6 +347,7 @@ export class Stage extends MiStage {
 		this.register(new Rect(this.canvas));
 		this.register(new Text(this.canvas));
 		this.register(new Eraser(this.canvas));
+		this.register(new Screenshot(this.canvas));
 	}
 
 	/**

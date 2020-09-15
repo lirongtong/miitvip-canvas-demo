@@ -10,7 +10,7 @@
 				<mi-thickness :default-thickness="canvas.brush.thickness" :default-opacity="canvas.brush.opacity" :active="canvas.tool !== 'brush' ? canvas.tool : canvas.brush.name" @change-thickness="thicknessSelect"></mi-thickness>
 				<mi-eraser></mi-eraser>
 				<mi-text></mi-text>
-				<mi-screenshot></mi-screenshot>
+				<mi-screenshot :active="canvas.active" :type="canvas.screenshot" @tool-select="cropSelect"></mi-screenshot>
 				<mi-forward></mi-forward>
 				<mi-backward></mi-backward>
 			</div>
@@ -43,6 +43,7 @@
 	import MiBackward from './Backward.vue';
 	import MiScreenshot from './Screenshot.vue';
 	import MiScreenfull from './Screenfull.vue';
+	import {Screenshot} from '@components/canvas/tools/Screenshot';
 
 	const selectors = {
 		container: 'mi-canvas-container',
@@ -91,6 +92,7 @@
 			tool: 'drag',                       // 当前选中工具
 			eraser: 'select',                   // 橡皮擦类型
 			checked: [],                        // 画布选择列表
+			screenshot: 'area',					// 截图类型(area: 区域 / screen: 屏幕)
 		};
 
 		/**
@@ -442,6 +444,21 @@
 				this.$set(this.canvas.brush, 'thickness', value);
 				Tools.setAttrs({thickness: value});
 				if (this.canvas.tool === 'brush') this.updateCursor();
+			}
+		}
+
+		/**
+		 * 截图.
+		 * @param type
+		 */
+		cropSelect(type: string): void {
+			this.toolSelect('screenshot');
+			this.$set(this.canvas, 'screenshot', type);
+			this.stage.setActiveToolAttrs({type});
+			if (type === 'screen') {
+				/** 截屏后强制改为区域截图 */
+				Screenshot.screenshot();
+				this.stage.setActiveToolAttrs({type: 'area'});
 			}
 		}
 

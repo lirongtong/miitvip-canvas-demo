@@ -1,0 +1,33 @@
+.@{mi-canvas} {
+	&-screenshot {
+		&.@{poptip-prefix-cls} {
+			&-popper {
+				min-width: 80px;
+			}
+		}
+
+		&-item {
+			.@{tooltip-prefix-cls} {
+				margin-right: 8px;
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+
+			i.iconfont {
+				font-size: 20px;
+				cursor: pointer;
+				width: 32px;
+				height: 32px;
+				.flex();
+
+				&.active {
+					background: @primary-color;
+					color: #fff;
+					border-radius: 4px;
+				}
+			}
+		}
+	}
+}

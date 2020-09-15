@@ -17,7 +17,7 @@ import {Layer, MiLayerData} from '@components/canvas/Layer';
 import {Events} from '@components/canvas/Events';
 import {throttle} from '@components/canvas/Throttle';
 import {MiPoint, MiPointConfig, MiPointGroup, Point} from '@components/canvas/Point';
-import {MiRectConfig} from '@components/canvas/shapes/Rect';
+import {MiRectConfig, MiRectPointConfig} from '@components/canvas/shapes/Rect';
 import RectWorker from 'worker-loader!./workers/Rect.worker';
 import {cookie} from '@utils/cookie';
 import {Rect} from '@components/canvas/shapes/Rect';
@@ -46,6 +46,7 @@ export interface MiBrushAttrsConfig {
 	thickness?: number;
 	opacity?: number;
 	solid?: boolean;
+	type?: string;
 }
 
 /** 重绘属性 */
@@ -359,6 +360,53 @@ export abstract class Tools extends Events {
 			x: p1.x + (p2.x - p1.x) / 2,
 			y: p1.y + (p2.y - p1.y) / 2
 		};
+	}
+
+	/**
+	 * 根据2个坐标点及其粗细, 计算方形4个坐标点.
+	 * @param start 开始坐标点
+	 * @param end 结束坐标点
+	 * @param rect
+	 */
+	protected getPointsBasedOn2Point(
+		start: Point,
+		end: Point,
+		rect?: MiRectConfig
+	): MiRectPointConfig {
+		rect = rect ?? {x: 0, y: 0, width: 0, height: 0};
+		/** 右上角移动 */
+		if (end.x > start.x && end.y < start.y) {
+			rect.x = start.x;
+			rect.y = end.y;
+			rect.width = end.x - start.x;
+			rect.height = start.y - end.y;
+		}
+		/** 右下角移动 */
+		if (end.x > start.x && end.y > start.y) {
+			rect.x = start.x;
+			rect.y = start.y;
+			rect.width = end.x - start.x;
+			rect.height = end.y - start.y;
+		}
+		/** 左上角移动 */
+		if (end.x < start.x && end.y < start.y) {
+			rect.x = end.x;
+			rect.y = end.y;
+			rect.width = start.x - end.x;
+			rect.height = start.y - end.y;
+		}
+		/** 左下角移动 */
+		if (end.x < start.x && end.y > start.y) {
+			rect.x = end.x;
+			rect.y = start.y;
+			rect.width = start.x - end.x;
+			rect.height = end.y - start.y;
+		}
+		const p1 = {x: rect.x, y: rect.y},
+			p2 = {x: p1.x + rect.width, y: p1.y},
+			p3 = {x: p1.x + rect.width, y: p1.y + rect.height},
+			p4 = {x: p1.x, y: p1.y + rect.height};
+		return {lt: p1, rt: p2, rb: p3, lb: p4};
 	}
 
 	/**
