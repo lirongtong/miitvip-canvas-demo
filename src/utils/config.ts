@@ -35,10 +35,10 @@ class MiConfig {
 	public salt = this.prefix + 'bXrf4dJbLlf0u8X3';
 
 	/** 关键词 */
-	public keywords = 'fonxconn, vue, typescript, view-design';
+	public keywords = 'vue, typescript, view-design, makeit, 麦可易特网';
 
 	/** 描述 */
-	public description = '麦可易特网涂鸦白板';
+	public description = '麦可易特网涂鸦白板 (Powered by makeit.vip)';
 
 	/** 是否为移动端 */
 	public mobile = false;
