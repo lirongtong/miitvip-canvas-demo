@@ -1,0 +1,45 @@
+.@{mi-canvas} {
+	&-brush {
+		.@{poptip-prefix-cls} {
+			&-body {
+				padding: 0 16px 16px 16px;
+
+				&-content {
+					overflow: hidden;
+				}
+			}
+		}
+
+		&-item {
+			.flex();
+			width: 200px;
+			flex-wrap: wrap;
+
+			.@{tooltip-prefix-cls} {
+				margin-right: 16px;
+				margin-top: 16px;
+				&:nth-child(4n) {
+					margin-right: 0;
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.iconfont {
+			.flex();
+			font-size: 22px;
+			width: 32px;
+			height: 32px;
+			cursor: pointer;
+
+			&.active {
+				background: @primary-color;
+				color: #fff;
+				.border-radius();
+			}
+		}
+	}
+}

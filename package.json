@@ -1,0 +1,49 @@
+{
+	"name": "mi-canvas-demo",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"serve": "vue-cli-service serve --mode local",
+		"build:dev": "vue-cli-service build --mode dev",
+		"build:test": "vue-cli-service build --mode test",
+		"build:pro": "vue-cli-service build --mode prod",
+		"test:unit": "vue-cli-service test:unit",
+		"lint": "vue-cli-service lint"
+	},
+	"dependencies": {
+		"axios": "^0.20.0",
+		"core-js": "^3.6.5",
+		"screenfull": "^5.0.2",
+		"view-design": "^4.3.2",
+		"vue": "^2.6.11",
+		"vue-class-component": "^7.2.3",
+		"vue-color": "^2.7.1",
+		"vue-property-decorator": "^9.0.0",
+		"vue-router": "^3.2.0",
+		"vuex": "^3.4.0",
+		"vuex-class": "^0.3.2",
+		"worker-loader": "^3.0.2"
+	},
+	"devDependencies": {
+		"@koa/cors": "^3.1.0",
+		"@types/vue-color": "^2.4.2",
+		"@typescript-eslint/eslint-plugin": "^2.33.0",
+		"@typescript-eslint/parser": "^2.33.0",
+		"@vue/cli-plugin-babel": "~4.5.0",
+		"@vue/cli-plugin-eslint": "~4.5.0",
+		"@vue/cli-plugin-router": "~4.5.0",
+		"@vue/cli-plugin-typescript": "~4.5.0",
+		"@vue/cli-plugin-vuex": "~4.5.0",
+		"@vue/cli-service": "~4.5.0",
+		"@vue/eslint-config-typescript": "^5.0.2",
+		"eslint": "^6.7.2",
+		"eslint-plugin-vue": "^6.2.2",
+		"koa": "^2.13.0",
+		"less": "^3.12.2",
+		"less-loader": "^5.0.0",
+		"redis": "^3.0.2",
+		"socket.io": "^2.3.0",
+		"typescript": "^4.0.2",
+		"vue-template-compiler": "^2.6.11"
+	}
+}

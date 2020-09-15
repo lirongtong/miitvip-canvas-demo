@@ -1,0 +1,92 @@
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+html {
+	font-family: sans-serif;
+	line-height: 1.15;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	-ms-overflow-style: scrollbar;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+	margin: 0;
+	font-family: "Pingfang SC", "Microsoft YaHei", "Monospaced Number", "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	font-size: 14px;
+	color: rgba(0, 0, 0, .85);
+	overflow: hidden;
+}
+
+pre, code, kbd, samp {
+	margin: 0;
+	font-family: "Courier New", Consolas, "Source Code Pro", "Miscrosoft Yahei", "Segoe UI", "Lucida Grande", Helvetica, Arial, FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", sans-serif;
+	font-size: 14px;
+	tab-size: 16;
+}
+
+img {
+	width: 100%;
+	height: 100%;
+}
+
+a {
+	color: #2F9688;
+	background-color: transparent;
+	text-decoration: none;
+	outline: none;
+	cursor: pointer;
+	-webkit-transition: color .4s;
+	transition: color .4s;
+}
+
+/** Flex */
+.flex(@align: center, @justify: center) {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: @align;
+	align-items: @align;
+	justify-content: @justify;
+}
+
+/** Border Radius */
+.border-radius(@multiple: 1) {
+	-moz-border-radius: 4px * @multiple;
+	-webkit-border-radius: 4px * @multiple;
+	border-radius: 4px * @multiple;
+}
+
+/** Text Ellipsis */
+.text-ellipsis(){
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/** Thumbnail Background */
+.thumbnail-background() {
+	background-color: white;
+	background-image: linear-gradient(45deg, #CCC 26%, transparent 25%, transparent 75%, #CCC 75%, #CCC), linear-gradient(45deg, #CCC 26%, transparent 25%, transparent 75%, #CCC 75%, #CCC);
+	background-position: -2px -2px, 4px 4px;
+	background-size: 12px 12px;
+	border: solid 1px #80868B;
+	.border-radius();
+	box-sizing: border-box;
+}
+
+@import '~view-design/src/styles/index';
+@mi-prefix: mi-;
+@primary-color: #2F9688;
+@import './common';
+@import './icons';
+@import './canvas/canvas';
+@import './canvas/stages';
+@import './canvas/layers';
+@import './canvas/brush';
+@import './canvas/palette';
+@import './canvas/thickness';

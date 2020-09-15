@@ -1,0 +1,44 @@
+.@{mi-canvas} {
+	&-stages {
+		&-wrapper {
+			width: 216px;
+		}
+
+		&-list {
+			&-item {
+				width: 216px;
+			}
+
+			&-btns {
+				width: 0;
+				padding: 0;
+			}
+
+			&-thumbnail-bg {
+				width: 200px;
+				margin: 8px 16px 8px 14px;
+				.@{checkbox-prefix-cls} {
+					&-wrapper {
+						position: absolute;
+						top: 4px;
+						left: 4px;
+						margin: 0;
+						z-index: 100;
+						span:last-child {
+							display: none;
+						}
+					}
+				}
+			}
+
+			&-thumbnail {
+				width: 200px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 80;
+				background-color: #fafafa;
+			}
+		}
+	}
+}
