@@ -186,6 +186,50 @@ export abstract class Tools extends Events {
 	}
 
 	/**
+	 * 判断点击的坐标点是否在矩形区域内.
+	 * @param point 鼠标点击的坐标点
+	 * @param rect 矩形区域
+	 * @param move 是否存在移动(已移动)
+	 * @param scale 是否存在缩放(正在缩放)
+	 * @param origin 是否拖拽过
+	 * @param action 点击的是否为操作按钮(8个方向的缩放按钮)
+	 * @param ctx 上下文
+	 */
+	protected isPointInRect(
+		point: Point | MiPoint,
+		rect: MiRectConfig,
+		move?: MiPointConfig,
+		scale?: number,
+		origin?: MiPointConfig,
+		action?: boolean,
+		ctx?: CanvasRenderingContext2D
+	): boolean {
+		const tempPoint = {...point},
+			tempRect = {...rect};
+		ctx = ctx ?? this.getCurrentContext()
+		let isIn;
+		ctx.save();
+		ctx.beginPath();
+		/** 移动 */
+		if (move) {
+			tempRect.x += move.x;
+			tempRect.y += move.y;
+		}
+		/** 缩放 */
+		if (!action && scale && scale !== 1) {
+			/** 按倍数缩放方形宽高 */
+			tempRect.width *= scale;
+			tempRect.height *= scale;
+		}
+		if (origin) ctx.translate(origin.x, origin.y);
+		ctx.rect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
+		isIn = ctx.isPointInPath(tempPoint.x, tempPoint.y);
+		ctx.closePath();
+		ctx.restore();
+		return isIn;
+	}
+
+	/**
 	 * 矩形(用于选择判断是否选中某个内容)
 	 * 重绘过程中调用(一般在内容重绘完成后调用该方法, 绘制选中框)
 	 * @param ctx 画布上下文

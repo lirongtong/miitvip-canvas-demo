@@ -15,6 +15,7 @@ import {MiBrushRepaintConfig, Tools} from '@components/canvas/Tools';
 import {Stage} from '@components/canvas/Stage';
 import {MiPointConfig} from '@components/canvas/Point';
 import {MiRectConfig} from '@components/canvas/shapes/Rect';
+import {MiTextConfig} from '@components/canvas/tools/Text';
 
 export abstract class MiLayer {
 	data: MiLayerData[] = [];
@@ -31,6 +32,7 @@ export interface MiLayerData {
 	origin: MiPointConfig;                              // 坐标系原点
 	visible: boolean;                                   // 是否显示(橡皮擦擦除后为false)
 	rect?: MiRectConfig;                                // 方形属性(主要用于判断内容选中)
+	text?: MiTextConfig;                                // 文本内容属性
 	draw: (config?: MiBrushRepaintConfig) => void;      // 具体工具类中实现
 }
 
