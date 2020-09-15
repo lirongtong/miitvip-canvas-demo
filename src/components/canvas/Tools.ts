@@ -429,6 +429,7 @@ export abstract class Tools extends Events {
 			move: {x: 0, y: 0},
 			scale: 1,
 			rotate: 0,
+			origin: {x: 0, y: 0},
 			visible: true
 		};
 	}

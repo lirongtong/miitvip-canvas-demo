@@ -69,6 +69,8 @@ export class Line extends Tools implements MiTools {
 			tempEnd = {...end} as Point;
 		ctx.save();
 		if (config) {
+			/** 无限画布 */
+			if (config.origin) ctx.translate(config.origin.x, config.origin.y);
 			/** 移动 */
 			if (config.move) {
 				const isMoving = config.move.x !== 0 || config.move.y !== 0;

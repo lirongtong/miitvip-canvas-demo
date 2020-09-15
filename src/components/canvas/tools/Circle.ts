@@ -86,6 +86,8 @@ export class Circle extends Tools implements MiTools {
 			rectangle = ({...config?.rect} ?? {}) as MiRectConfig;
 		ctx.save();
 		if (config) {
+			/** 无限画布 */
+			if (config.origin) ctx.translate(config.origin.x, config.origin.y);
 			/** 移动 */
 			if (config.move) {
 				const isMoving = config.move.x !== 0 || config.move.y !== 0;

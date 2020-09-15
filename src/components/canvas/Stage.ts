@@ -16,7 +16,7 @@ import {Utils} from '@components/canvas/Utils';
 import {Canvas} from '@components/canvas/Canvas';
 import {Marker} from '@components/canvas/tools/Marker';
 import {Selection} from '@components/canvas/tools/Selection';
-import {Layer} from '@components/canvas/Layer';
+import {Layer, MiLayerData} from '@components/canvas/Layer';
 import {Cursor} from '@components/canvas/Cursor';
 import {Drag} from '@components/canvas/tools/Drag';
 import {Rect} from '@components/canvas/tools/Rect';
@@ -380,6 +380,40 @@ export class Stage extends MiStage {
 			});
 		}
 		return data;
+	}
+
+	/**
+	 * 更新当前画布所有数据的坐标系原点.
+	 * @param x
+	 * @param y
+	 * @param repaint 更新后是否重绘
+	 */
+	updateTransformOrigin(
+		x: number,
+		y: number,
+		repaint = false
+	): void {
+		const keys = Object.keys(this.layers),
+			len = keys.length;
+		if (repaint) this.canvas.clear();
+		for (let i = 0; i < len; i++) {
+			const cur = this.layers[keys[i]] as Layer;
+			for (let k = 0, l = cur.data.length; k < l; k++) {
+				const active = cur.data[k] as MiLayerData;
+				active.origin.x += x;
+				active.origin.y += y;
+				if (repaint) {
+					active.draw({
+						rect: active.rect,
+						move: active.move,
+						scale: active.scale,
+						rotate: active.rotate,
+						origin: active.origin,
+						ctx: this.canvas.getContext()
+					});
+				}
+			}
+		}
 	}
 
 	/**

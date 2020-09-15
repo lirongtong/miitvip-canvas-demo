@@ -28,6 +28,7 @@ export interface MiLayerData {
 	move: MiPointConfig;                                // 移动数据
 	rotate: number;                                     // 旋转角度
 	scale: number;                                      // 缩放比例
+	origin: MiPointConfig;                              // 坐标系原点
 	visible: boolean;                                   // 是否显示(橡皮擦擦除后为false)
 	rect?: MiRectConfig;                                // 方形属性(主要用于判断内容选中)
 	draw: (config?: MiBrushRepaintConfig) => void;      // 具体工具类中实现
