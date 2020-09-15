@@ -251,6 +251,8 @@ export class Arrow extends Tools implements MiTools {
 	 * @param event
 	 */
 	protected drawBegin(event: MouseEvent | PointerEvent | Touch): void {
+		this.setCtxAttrs();
+		this.getCurrentContext().lineWidth = this.getThickness(this.divisor);
 		this.start = this.createPoint(event.clientX, event.clientY);
 		this.buffer = this.createBuffer(this.getThickness(this.divisor));
 		this.drawUpdate(event);
