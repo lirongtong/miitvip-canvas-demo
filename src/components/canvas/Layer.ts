@@ -75,6 +75,7 @@ export class Layer extends MiLayer {
 					scale: cur.scale ?? 1,
 					rotate: cur.rotate ?? 0,
 					move: cur.move,
+					origin: cur.origin,
 					ctx
 				});
 			}
@@ -89,6 +90,7 @@ export class Layer extends MiLayer {
 							scale: cur.scale ?? 1,
 							rotate: cur.rotate ?? 0,
 							move: cur.move,
+							origin: cur.origin,
 							ctx
 						};
 						if (
