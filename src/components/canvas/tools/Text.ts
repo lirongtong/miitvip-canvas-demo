@@ -75,7 +75,7 @@ export class Text extends Tools implements MiTools {
 		if (content) {
 			ctx = ctx ?? this.getCurrentContext();
 			const attrs = data.attrs,
-				size = this.getThickness(attrs.thickness, this.divisor),
+				size = this.getThickness(this.divisor, attrs.thickness),
 				breakContent = content.split('\n'),
 				scale = config && config.scale;
 			ctx.save();
@@ -136,7 +136,7 @@ export class Text extends Tools implements MiTools {
 	): void {
 		const content = data.content ?? null;
 		if (content) {
-			ctx = ctx ?? config?.ctx ?? instance.getCurrentContext();
+			ctx = ctx ?? config?.ctx ?? Text.prototype.getCurrentContext();
 			const tempData = Utils.deepCopy(data),
 				rectangle = tempData.rect as MiRectConfig;
 			ctx.save();
@@ -285,7 +285,6 @@ export class Text extends Tools implements MiTools {
 				content.textContent = area.value;
 				this.content = area.value;
 				this.setContentRect(content);
-				this.setContentEditing(area.value);
 				this.setData(area.value);
 			});
 			/** 删除 */
@@ -295,7 +294,6 @@ export class Text extends Tools implements MiTools {
 				if (code === 8 || code === 46) {
 					content.textContent = area.value;
 					this.setContentRect(content);
-					this.setContentEditing(area.value);
 					this.setData(area.value);
 				}
 			});
@@ -303,7 +301,6 @@ export class Text extends Tools implements MiTools {
 			Utils.on(area, 'cut', () => {
 				content.textContent = area.value;
 				this.setContentRect(content);
-				this.setContentEditing(area.value);
 				this.setData(area.value);
 			});
 			/** 初始化 */
@@ -323,17 +320,6 @@ export class Text extends Tools implements MiTools {
 		content = content ?? document.getElementById(this.cid) as HTMLSpanElement;
 		this.rect.width = Math.ceil(content.offsetWidth) + 10;
 		this.rect.height = Math.ceil(content.offsetHeight) + 10;
-	}
-
-	/**
-	 * 编辑时, 更新变更内容.
-	 * @param content
-	 */
-	protected setContentEditing(content: string): void {
-		if (this.layerData) {
-			const text = this.getTextContent() as MiTextConfig;
-			text.content = content;
-		}
 	}
 
 	/**
@@ -607,6 +593,7 @@ export class Text extends Tools implements MiTools {
 					rect: Utils.deepCopy(this.layerData.rect)
 				} : undefined
 			);
+			this.saveData();
 		}
 		if (this.isPointInTextarea(point)) {
 			/** 重绘(不包含当前选中) */
