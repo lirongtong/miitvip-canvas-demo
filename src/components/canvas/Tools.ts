@@ -403,12 +403,13 @@ export abstract class Tools extends Events {
 		origin?: MiPointConfig,
 		ctx?: CanvasRenderingContext2D
 	): void {
-		const color = 'rgb(255, 98, 60)',
+		const color = 'rgb(116, 116, 116)',
 			rectangle = {...rect};
 		rectangle.radius = 4;
 		ctx = ctx ?? this.getCurrentContext();
 		ctx.save();
-		ctx.lineWidth = 5;
+		ctx.lineDashOffset = 3;
+		ctx.setLineDash([8]);
 		ctx.strokeStyle = color;
 		/** 移动 */
 		if (move) {

@@ -116,8 +116,7 @@ export class Screenshot extends Tools implements MiTools {
 		dataURL: string
 	): void {
 		const link = document.createElement('a'),
-			blob = this.image2Blob(dataURL),
-			evt = document.createEvent('MouseEvents');
+			blob = this.image2Blob(dataURL);
 		link.download = file;
 		link.style.display = 'none';
 		link.href = URL.createObjectURL(blob);
