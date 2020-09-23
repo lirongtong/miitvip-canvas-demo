@@ -13,6 +13,7 @@
 import {Canvas} from '@components/canvas/Canvas';
 import {Arc} from '@components/canvas/shapes/Arc';
 import {Tools} from '@components/canvas/Tools';
+import laser from '@images/laser.png';
 
 export interface MiCursorConfig {
 	container: string | HTMLDivElement;     // 所属容器
@@ -90,6 +91,9 @@ export class Cursor {
 			case 'text':
 				cursor = 'text';
 				break;
+			case 'laser':
+				cursor = `url("${laser}") 16 16, auto`;
+				break;
 			case 'circle':
 				const width = (this.radius as number) * 2,
 					height = (this.radius as number) * 2,
@@ -165,7 +169,7 @@ export class Cursor {
 
 			/** 激光笔 */
 			case 'laser':
-				this.type = 'laser';
+				this.type = `laser`;
 				break;
 
 			/** 圆点 */

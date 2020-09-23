@@ -22,7 +22,22 @@ export class Eraser extends Tools implements MiTools {
 	}
 
 	draw<A extends MiToolsSyncData[]>(...args: A): void {}
+
+	/**
+	 * 准备绘制.
+	 * @param event
+	 */
 	protected drawBegin(event: MouseEvent | PointerEvent | Touch): void {}
+
+	/**
+	 * 绘制过程.
+	 * @param event
+	 */
 	protected drawUpdate(event: MouseEvent | PointerEvent | Touch): void {}
+
+	/**
+	 * 绘制结束.
+	 * @param event
+	 */
 	protected drawEnd(event: MouseEvent | PointerEvent | Touch): void {}
 }
