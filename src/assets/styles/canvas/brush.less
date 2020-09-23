@@ -18,6 +18,7 @@
 			.@{tooltip-prefix-cls} {
 				margin-right: 16px;
 				margin-top: 16px;
+
 				&:nth-child(4n) {
 					margin-right: 0;
 				}
@@ -36,7 +37,9 @@
 			cursor: pointer;
 
 			&.active {
-				color: @primary-color;
+				color: #fff;
+				background: #808080;
+				.border-radius();
 			}
 		}
 	}

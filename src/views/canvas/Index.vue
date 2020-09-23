@@ -10,7 +10,7 @@
 				<mi-thickness :default-thickness="canvas.brush.thickness" :default-opacity="canvas.brush.opacity" :active="canvas.tool !== 'brush' ? canvas.tool : canvas.brush.name" @change-thickness="thicknessSelect"></mi-thickness>
 				<mi-eraser :active="canvas.tool" :type="canvas.eraser" @tool-select="eraserSelect"></mi-eraser>
 				<mi-text :active="canvas.tool" :color="canvas.brush.color" :opacity="canvas.brush.opacity" :thickness="canvas.brush.thickness" @tool-select="toolSelect"></mi-text>
-				<mi-screenshot :active="canvas.active" :type="canvas.screenshot" @tool-select="cropSelect"></mi-screenshot>
+				<mi-screenshot :active="canvas.tool" :type="canvas.screenshot" @tool-select="cropSelect"></mi-screenshot>
 				<mi-forward></mi-forward>
 				<mi-backward></mi-backward>
 			</div>

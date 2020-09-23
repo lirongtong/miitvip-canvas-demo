@@ -5,8 +5,8 @@
 				placement="top"
 				@on-popper-show="onPopperShow"
 				transfer>
-            <span class="mi-canvas-tools-icon">
-                <i class="iconfont icon-eraser" :class="active === 'eraser' ? 'active' : null"></i>
+            <span class="mi-canvas-tools-icon" :class="active === 'eraser' ? 'active' : null">
+                <i class="iconfont icon-eraser"></i>
             </span>
 			<div slot="content">
 				<div class="mi-canvas-eraser-item">

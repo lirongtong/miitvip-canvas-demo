@@ -10,7 +10,7 @@
             </span>
 			<div slot="content">
 				<div class="mi-canvas-brush-item" id="mi-canvas-brush-item">
-					<Tooltip :content="tool.name" v-for="(tool, index) in tools" :key="index" :placement="index > 3 ? 'bottom' : 'top'">
+					<Tooltip :content="tool.name" v-for="(tool, index) in tools" :key="index" placement="top">
 						<i class="iconfont" :class="getActiveClass(tool)" @click="toolSelect(tool)"></i>
 					</Tooltip>
 				</div>
