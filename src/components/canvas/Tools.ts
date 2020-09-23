@@ -384,8 +384,10 @@ export abstract class Tools extends Events {
 		ctx = ctx ?? this.getCurrentContext();
 		const color = 'rgb(47, 150, 136)';
 		ctx.lineWidth = 3;
+		ctx.lineDashOffset = 3;
+		ctx.setLineDash([8]);
 		ctx.strokeStyle = color;
-		new Rect({...rect}).draw(ctx);
+		new Rect({...rect, radius: 4}).draw(ctx);
 	}
 
 	/**

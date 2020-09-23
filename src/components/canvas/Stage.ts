@@ -28,6 +28,7 @@ import {Arrow} from '@components/canvas/tools/Arrow';
 import {Laser} from '@components/canvas/tools/Laser';
 import {Screenshot} from '@components/canvas/tools/Screenshot';
 import {MiRectConfig} from '@components/canvas/shapes/Rect';
+import {MiPointConfig} from '@components/canvas/Point';
 
 declare global {
 	interface Window {
@@ -53,6 +54,7 @@ export interface MiStageTracesConfig {
 	operation?: string;             // 操作名称
 	index?: number;                 // 操作的数据索引
 	indexes?: any[];                // 批量操作 (清屏...)
+	move?: MiPointConfig;           // 移动距离
 	active?: {
 		attrs: MiBrushAttrs;        // 属性 ( 便于颜色/粗细的恢复 )
 		rect: MiRectConfig;         // 方形属性

@@ -43,6 +43,7 @@ export class Layer extends MiLayer {
 	hidden: boolean;                    // 是否隐藏
 	thumb = '';                         // 图层缩略图(避免画布切换时, 需要重新生成)
 	selected = -1;                      // 选中索引
+	selection = false;                  // 是否存在选中 ( 拖拽过程中一直选中的状态 )
 	eraser: {                           // 橡皮擦选中内容
 		index: number;
 		selection: boolean;
@@ -90,7 +91,7 @@ export class Layer extends MiLayer {
 			}
 		} else {
 			if (!this.hidden) {
-				const selection: MiBrushRepaintConfig = {};
+				let selection: MiBrushRepaintConfig = {};
 				for (let i = 0, len = this.data.length; i < len; i++) {
 					const cur = this.data[i];
 					if (cur.visible) {
@@ -104,11 +105,15 @@ export class Layer extends MiLayer {
 						};
 						if (
 							this.index !== null &&
-							i === this.index
+							this.index === i
 						) {
 							this.selected = i;
 							if (cur.tool !== 'text') cur.draw(config);
-							selection.selection = true;
+							selection = {
+								...config,
+								selection: true
+							}
+							this.selection = false;
 						} else cur.draw(config);
 					}
 				}

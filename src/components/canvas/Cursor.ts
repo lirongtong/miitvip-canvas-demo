@@ -131,6 +131,7 @@ export class Cursor {
 	 * 更新光标样式.
 	 * @param tool
 	 * @param config
+	 * @param type 指定样式
 	 */
 	update(
 		tool: string,
@@ -141,65 +142,69 @@ export class Cursor {
 			color?: string;
 			divisor?: number;
 			solid?: boolean;
-		}
+		},
+		type?: string
 	): void {
-		const brush = Tools.getStage().getActiveTool();
-		tool = tool === 'brush' ? brush : tool;
-		switch (tool) {
-			/** 拖拽 */
-			case 'drag':
-				this.type = 'move';
-				break;
+		if (type) this.type = type;
+		else {
+			const brush = Tools.getStage().getActiveTool();
+			tool = tool === 'brush' ? brush : tool;
+			switch (tool) {
+				/** 拖拽 */
+				case 'drag':
+					this.type = 'move';
+					break;
 
-			/** 选择 */
-			case 'selection':
-				this.type = 'default';
-				break;
+				/** 选择 */
+				case 'selection':
+					this.type = 'default';
+					break;
 
-			/** 文本 */
-			case 'text':
-				this.type = 'text';
-				break;
+				/** 文本 */
+				case 'text':
+					this.type = 'text';
+					break;
 
-			/** 橡皮擦 */
-			case 'eraser':
-				this.type = 'eraser';
-				break;
+				/** 橡皮擦 */
+				case 'eraser':
+					this.type = 'eraser';
+					break;
 
-			/** 截屏 */
-			case 'screenshot':
-				this.type = 'crop';
-				break;
+				/** 截屏 */
+				case 'screenshot':
+					this.type = 'crop';
+					break;
 
-			/** 激光笔 */
-			case 'laser':
-				this.type = `laser`;
-				break;
+				/** 激光笔 */
+				case 'laser':
+					this.type = `laser`;
+					break;
 
-			/** 圆点 */
-			default:
-				this.type = 'circle';
-				let radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 8));
-				switch (tool) {
-					/** 直线 */
-					case 'line':
-						radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 20));
-						break;
+				/** 圆点 */
+				default:
+					this.type = 'circle';
+					let radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 8));
+					switch (tool) {
+						/** 直线 */
+						case 'line':
+							radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 20));
+							break;
 
-					/** 矩形 / 圆形 */
-					case 'circle':
-					case 'rect':
-						if (config?.solid) radius = 5;
-						else radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 10));
-						break;
+						/** 矩形 / 圆形 */
+						case 'circle':
+						case 'rect':
+							if (config?.solid) radius = 5;
+							else radius = Math.ceil((config?.thickness ?? Tools.thickness) / (config?.divisor ?? 10));
+							break;
 
-					/** 箭头 */
-					case 'arrow':
-						radius = 5;
-						break;
-				}
-				this.radius = radius;
-				break;
+						/** 箭头 */
+						case 'arrow':
+							radius = 5;
+							break;
+					}
+					this.radius = radius;
+					break;
+			}
 		}
 		if (config?.color) this.color = config.color;
 		if (config?.stroke) this.stroke = config.stroke;
