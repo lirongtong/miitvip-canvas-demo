@@ -37,6 +37,7 @@ export class Text extends Tools implements MiTools {
 	static data?: MiTextConfig;             // 文本属性
 	static instance: Text;                  // 用于静态方法调用非静态方法.
 	static wid = '';                        // wrapper id
+	layerData?: MiLayerData;                // 选中的图层数据(文本)
 	protected start!: Point;                // 输入的起始坐标点
 	protected content = '';                 // 文本内容
 	/** 最大宽高(用于自动换行/控制滚动条) */
@@ -46,7 +47,6 @@ export class Text extends Tools implements MiTools {
 	protected cid = '';                     // content id
 	protected tid = '';                     // textarea id
 	protected pid = '';                     // Pre id
-	protected layerData?: MiLayerData;      // 选中的图层数据(文本)
 
 	/**
 	 * 构造.
@@ -639,7 +639,7 @@ export class Text extends Tools implements MiTools {
 					false,
 					this,
 					this.layerData ? {
-						scale: Utils.deepCopy(this.layerData.scale),
+						scale: this.layerData.scale,
 						move: {...this.layerData.move},
 						origin: {...this.layerData.origin},
 						rect: Utils.deepCopy(this.layerData.rect)

@@ -44,6 +44,8 @@
 	import MiScreenshot from './Screenshot.vue';
 	import MiScreenfull from './Screenfull.vue';
 	import {Screenshot} from '@components/canvas/tools/Screenshot';
+	import {Selection} from '@components/canvas/tools/Selection';
+	import {MiTextConfig, Text} from '@components/canvas/tools/Text';
 
 	const selectors = {
 		container: 'mi-canvas-container',
@@ -366,6 +368,47 @@
 		toolSelectBefore(name?: string): Promise<any> | void {
 			name = name ?? this.canvas.tool;
 			if (name !== 'brush') this.canvas.brush.icon = 'pencil';
+			const stage = Tools.getStage(),
+				layer = Tools.getLayer();
+			/** 上次选中工具为 [ 选择 ] 工具, 重绘 */
+			if (
+				name === 'selection' &&
+				Selection.selection !== null
+			) {
+				stage.draw(true);
+				Selection.selection = null;
+			}
+			/** 上次选中工具为 [ 橡皮擦 ] 工具, 清除后重绘 */
+			if (
+				name === 'eraser' &&
+				Tools.getLayer().eraser.selection
+			) {
+				layer.eraser.index = -1;
+				layer.eraser.selection = false;
+				stage.draw(true);
+			}
+			/** 上次选中工具为 [ 文本 ] 工具, 清除后重绘 */
+			if (
+				name === 'text' &&
+				Text.data
+			) {
+				return new Promise((resolve) => {
+					Text.rendering(
+						Text.data as MiTextConfig,
+						true,
+						Text.instance,
+						Text.instance.layerData ? {
+							scale: Text.instance.layerData.scale,
+							move: {...Text.instance.layerData.move},
+							origin: {...Text.instance.layerData.origin},
+							rect: Utils.deepCopy(Text.instance.layerData.rect)
+						} : undefined
+					);
+					const elem = document.getElementById(Text.wid);
+					if (elem) elem.remove();
+					resolve();
+				});
+			}
 		}
 
 		/**
