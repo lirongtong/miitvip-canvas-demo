@@ -442,6 +442,36 @@ export class Text extends Tools implements MiTools {
 	}
 
 	/**
+	 * 操作记录.
+	 * @param index
+	 * @param attrs
+	 * @param rect
+	 * @param oAttrs
+	 * @param oRect
+	 */
+	protected saveTrace(
+		index?: number,
+		attrs?: MiBrushAttrs,
+		rect?: MiRectConfig,
+		oAttrs?: MiBrushAttrs,
+		oRect?: MiRectConfig
+	): void {
+		if (index !== undefined) {
+			const params = {
+				operation: 'edit',
+				index,
+				active: {},
+				old: {}
+			} as any;
+			if (attrs) params.active.attrs = attrs;
+			if (rect) params.active.rect = rect;
+			if (oAttrs) params.old.attrs = oAttrs;
+			if (oRect) params.old.rect = oRect;
+			Tools.setTraces(params);
+		} else Tools.setTraces();
+	}
+
+	/**
 	 * 设置文本数据, 用于绘制.
 	 * @param content
 	 */
@@ -506,6 +536,11 @@ export class Text extends Tools implements MiTools {
 		) {
 			/** 编辑 */
 			if (this.isEditing(data, layerData)) {
+				const text = Utils.deepCopy(layerData.text) as MiTextConfig;
+				this.saveTrace(
+					index, data.attrs, data.rect,
+					text.attrs, text.rect
+				);
 				layerData.rect = {...data.rect};
 				layerData.text = data;
 				layerData.draw = (config) => {
@@ -527,6 +562,7 @@ export class Text extends Tools implements MiTools {
 				tool: this.name
 			} as MiToolsSyncData;
 			this.saveLayerData(params);
+			this.saveTrace();
 		}
 		Text.data = undefined;
 		this.layerData = undefined;

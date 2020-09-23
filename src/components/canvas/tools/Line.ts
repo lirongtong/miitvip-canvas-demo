@@ -158,7 +158,7 @@ export class Line extends Tools implements MiTools {
 					tool: this.name
 				} as MiToolsSyncData;
 				this.saveLayerData(params);
-				Tools.getStage().draw(true);
+				Tools.setTraces();
 			});
 		});
 	}

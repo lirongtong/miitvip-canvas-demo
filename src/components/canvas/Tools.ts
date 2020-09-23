@@ -210,8 +210,8 @@ export abstract class Tools extends Events {
 					/** 编辑(文本) */
 					case 'edit':
 						const text = data[trace.index].text as MiTextConfig;
-						text.attrs = trace.attrs;
-						text.rect = trace.rect;
+						text.attrs = trace.old.attrs;
+						text.rect = trace.old.rect;
 						break;
 					/** 擦除 */
 					case 'eraser':
@@ -258,8 +258,8 @@ export abstract class Tools extends Events {
 					/** 编辑(文本) */
 					case 'edit':
 						const text = data[recovery.index].text as MiTextConfig;
-						text.attrs = recovery.attrs;
-						text.rect = recovery.rect;
+						text.attrs = recovery.active.attrs;
+						text.rect = recovery.active.rect;
 						break;
 					/** 擦除 */
 					case 'eraser':

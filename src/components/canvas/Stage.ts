@@ -53,8 +53,14 @@ export interface MiStageTracesConfig {
 	operation?: string;             // 操作名称
 	index?: number;                 // 操作的数据索引
 	indexes?: any[];                // 批量操作 (清屏...)
-	attrs?: MiBrushAttrs;           // 属性 ( 便于颜色/粗细的恢复 )
-	rect?: MiRectConfig;            // 方形属性
+	active?: {
+		attrs: MiBrushAttrs;        // 属性 ( 便于颜色/粗细的恢复 )
+		rect: MiRectConfig;         // 方形属性
+	};
+	old?: {
+		attrs: MiBrushAttrs;        // 属性 ( 便于颜色/粗细的恢复 )
+		rect: MiRectConfig;         // 方形属性
+	};
 }
 
 /** 集成 Base 基类 */
