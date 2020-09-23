@@ -64,10 +64,8 @@ export class Rect extends Shape<MiRectConfig> {
 		ctx.beginPath();
 		if (this.radius) {
 			const length = Math.min(this.radius, this.width / 2, this.height / 2),
-				topLeft = length,
-				topRight = length,
-				bottomLeft = length,
-				bottomRight = length;
+				topLeft = length, topRight = length,
+				bottomLeft = length, bottomRight = length;
 			ctx.moveTo(this.x + topLeft, this.y);
 			ctx.lineTo(this.x + this.width - topRight, this.y);
 			/** 右上角弧度 */
@@ -93,7 +91,7 @@ export class Rect extends Shape<MiRectConfig> {
 			/** 左下角弧度 */
 			ctx.arc(
 				this.x + bottomLeft,
-				this.x + this.height - bottomLeft,
+				this.y + this.height - bottomLeft,
 				bottomLeft,
 				Math.PI / 2,
 				Math.PI,
