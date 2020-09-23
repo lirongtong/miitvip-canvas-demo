@@ -58,7 +58,23 @@ export class Text extends Tools implements MiTools {
 		Tools.instances[this.name] = this;
 	}
 
-	draw<A extends MiToolsSyncData[]>(...args: A): void {}
+	/**
+	 * 重绘.
+	 * @param args
+	 */
+	draw<A extends MiToolsSyncData[]>(...args: A): void {
+		const data = args[0] as any,
+			text = Utils.deepCopy(data.text) as MiTextConfig,
+			attrs = text.attrs as MiBrushAttrs;
+		Text.rendering({
+			size: this.getThickness(this.divisor, attrs.thickness),
+			content: text.content,
+			point: new Point(text.point.x, text.point.y),
+			attrs,
+			rect: Utils.deepCopy(text.rect),
+			max: Utils.deepCopy(text.max)
+		}, false, this, data.config);
+	}
 
 	/**
 	 * 绘制.

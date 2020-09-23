@@ -22,6 +22,7 @@ import RectWorker from 'worker-loader!./workers/Rect.worker';
 import {cookie} from '@utils/cookie';
 import {Rect} from '@components/canvas/shapes/Rect';
 import {MiArcConfig} from '@components/canvas/shapes/Arc';
+import {MiTextConfig} from '@components/canvas/tools/Text';
 
 export interface MiTools {
 	/**
@@ -83,6 +84,7 @@ export interface MiToolsSyncData {
 	solid?: boolean;                    // 是否为实心 - 针对矩形/圆形
 	rect?: MiRectConfig;                // 笔刷内容所占方形(用于选择)
 	config?: MiBrushRepaintConfig;      // 重绘属性
+	text?: MiTextConfig;                // 文本内容
 }
 
 export abstract class Tools extends Events {
