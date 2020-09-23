@@ -217,6 +217,8 @@ export abstract class Tools extends Events {
 			tempRect.x += move.x;
 			tempRect.y += move.y;
 		}
+		/** 无限画布 */
+		if (origin) ctx.translate(origin.x, origin.y);
 		/** 缩放 */
 		if (!action && scale && scale !== 1) {
 			/** 按倍数缩放方形宽高 */
@@ -495,6 +497,7 @@ export abstract class Tools extends Events {
 				if (tool) tool.draw(params);
 			}
 		} as MiLayerData;
+		if (params.text) data.text = params.text;
 		Tools.getLayer().data.push(data);
 	}
 

@@ -23,7 +23,7 @@ export interface MiTextConfig {
 	point: Point;                       // 起始坐标
 	attrs: MiBrushAttrs;                // 公用属性
 	rect: MiRectConfig;                 // 文本所占的方形区域
-	index?: boolean;                    // 编辑状态 - 待更新索引
+	index?: number | null;              // 编辑状态 - 待更新索引
 	visible?: boolean;                  // 是否显示
 	max: {                              // 内容最大宽高(用于自动换行/控制滚动条)
 		width: number;
@@ -304,13 +304,14 @@ export class Text extends Tools implements MiTools {
 				this.setData(area.value);
 			});
 			/** 删除 */
-			Utils.on(area, 'keydown', (evt) => {
+			Utils.on(area, 'keyup', (evt) => {
 				const key = evt as KeyboardEvent,
 					code = key.keyCode;
 				if (code === 8 || code === 46) {
-					content.textContent = area.value;
+					const str = area.value.trim();
+					content.textContent = str;
 					this.setContentRect(content);
-					this.setData(area.value);
+					this.setData(str);
 				}
 			});
 			/** 复制粘贴 */
@@ -445,22 +446,20 @@ export class Text extends Tools implements MiTools {
 	 * @param content
 	 */
 	protected setData(content: string | null): void {
-		if (content) {
-			if (this.layerData) {
-				/** 编辑状态 */
-				const data = Text.data as MiTextConfig;
-				data.rect = {...this.rect};
-				data.content = content.trim();
-			} else {
-				Text.data = Utils.deepCopy({
-					size: this.getThickness(this.divisor),
-					content: content.trim(),
-					point: this.start,
-					attrs: {...this.getCtxAttrs()},
-					rect: this.rect,
-					max: this.max
-				});
-			}
+		if (this.layerData) {
+			/** 编辑状态 */
+			const data = Text.data as MiTextConfig;
+			data.rect = {...this.rect};
+			data.content = content ? content.trim() : '';
+		} else {
+			Text.data = Utils.deepCopy({
+				size: this.getThickness(this.divisor),
+				content: content ? content.trim() : '',
+				point: this.start,
+				attrs: {...this.getCtxAttrs()},
+				rect: this.rect,
+				max: this.max
+			});
 		}
 	};
 
@@ -592,24 +591,33 @@ export class Text extends Tools implements MiTools {
 	protected drawBegin(event: MouseEvent | PointerEvent | Touch): void {
 		let point = this.createPoint(event.clientX, event.clientY);
 		if (Text.data) {
-			/**
-			 * 上一次(未渲染)
-			 * 离开文本工具 / 文本输入的起始位置变更
-			 * 需先保存上次文本域内的文本内容(绘制)
-			 * 进而清理 Text.data, 再保存数据.
-			 */
-			Text.rendering(
-				Text.data,
-				false,
-				this,
-				this.layerData ? {
-					scale: Utils.deepCopy(this.layerData.scale),
-					move: {...this.layerData.move},
-					origin: {...this.layerData.origin},
-					rect: Utils.deepCopy(this.layerData.rect)
-				} : undefined
-			);
-			this.saveData();
+			if (Text.data.content) {
+				/**
+				 * 上一次(未渲染)
+				 * 离开文本工具 / 文本输入的起始位置变更
+				 * 需先保存上次文本域内的文本内容(绘制)
+				 * 进而清理 Text.data, 再保存数据.
+				 */
+				Text.rendering(
+					Text.data,
+					false,
+					this,
+					this.layerData ? {
+						scale: Utils.deepCopy(this.layerData.scale),
+						move: {...this.layerData.move},
+						origin: {...this.layerData.origin},
+						rect: Utils.deepCopy(this.layerData.rect)
+					} : undefined
+				);
+				this.saveData();
+			} else {
+				/** 编辑状态下, 清除保存的数据 */
+				if (this.layerData) Tools.getLayer().clear(Tools.getLayer().index as number);
+				/** 恢复 */
+				Text.data = undefined;
+				this.layerData = undefined;
+				Tools.getLayer().index = null;
+			}
 		}
 		if (this.isPointInTextarea(point)) {
 			/** 重绘(不包含当前选中) */
@@ -617,14 +625,12 @@ export class Text extends Tools implements MiTools {
 			/** 初始化选中内容 */
 			if (this.layerData) {
 				/** 封装内容 */
-				const text = this.layerData.text as MiTextConfig;
-				text.size = this.getThickness(this.divisor, text.attrs.thickness);
-				const data = Utils.deepCopy(text);
+				const data = Utils.deepCopy(this.layerData.text) as MiTextConfig;
 				/** 设置 rect, 避免保存时为初始状态值 */
 				this.rect = data.rect;
 				/** 编辑的文本索引 */
 				data.index = Tools.getLayer().index;
-				const start = new Point(data.start.x, data.start.y);
+				const start = new Point(data.point.x, data.point.y);
 				this.start = start;
 				point = start;
 				Text.data = data;

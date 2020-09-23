@@ -402,7 +402,7 @@ export class Stage extends MiStage {
 				const active = cur.data[k] as MiLayerData;
 				active.origin.x += x;
 				active.origin.y += y;
-				if (repaint) {
+				if (repaint && active.visible) {
 					active.draw({
 						rect: active.rect,
 						move: active.move,

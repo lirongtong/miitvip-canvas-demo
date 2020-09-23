@@ -100,7 +100,7 @@ export class Layer extends MiLayer {
 							i === this.index
 						) {
 							this.selected = i;
-							cur.draw(config);
+							if (cur.tool !== 'text') cur.draw(config);
 							selection.selection = true;
 						} else cur.draw(config);
 					}
