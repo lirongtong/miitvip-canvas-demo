@@ -11,7 +11,7 @@
  * +-------------------------------------------+
  */
 import {Base} from '@components/canvas/Base';
-import {MiBrushAttrsConfig, Tools} from '@components/canvas/Tools';
+import {MiBrushAttrs, MiBrushAttrsConfig, Tools} from '@components/canvas/Tools';
 import {Utils} from '@components/canvas/Utils';
 import {Canvas} from '@components/canvas/Canvas';
 import {Marker} from '@components/canvas/tools/Marker';
@@ -27,6 +27,7 @@ import {Text} from '@components/canvas/tools/Text';
 import {Arrow} from '@components/canvas/tools/Arrow';
 import {Laser} from '@components/canvas/tools/Laser';
 import {Screenshot} from '@components/canvas/tools/Screenshot';
+import {MiRectConfig} from '@components/canvas/shapes/Rect';
 
 declare global {
 	interface Window {
@@ -45,6 +46,15 @@ export interface MiStageConfig {
 	buffer?: boolean;
 	reset?: boolean;
 	background?: string;
+}
+
+/** 操作踪迹 */
+export interface MiStageTracesConfig {
+	operation?: string;             // 操作名称
+	index?: number;                 // 操作的数据索引
+	indexes?: any[];                // 批量操作 (清屏...)
+	attrs?: MiBrushAttrs;           // 属性 ( 便于颜色/粗细的恢复 )
+	rect?: MiRectConfig;            // 方形属性
 }
 
 /** 集成 Base 基类 */
@@ -67,6 +77,8 @@ export class Stage extends MiStage {
 	cursor!: Cursor;                                        // 光标
 	layer!: Layer;                                          // 选中的图层
 	layers: {[index: string]: Layer} = {};                  // 图层列表
+	traces: any[] = [];                                     // 操作踪迹 (回撤)
+	recoveries: any[] = [];                                 // 待恢复列表 (恢复)
 	protected events: any[] = [];                           // 记录注册事件
 
 	/**

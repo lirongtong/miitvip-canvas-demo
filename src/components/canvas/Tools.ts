@@ -12,7 +12,7 @@
  */
 import {Canvas} from '@components/canvas/Canvas';
 import {Utils} from '@components/canvas/Utils';
-import {Stage} from '@components/canvas/Stage';
+import {MiStageTracesConfig, Stage} from '@components/canvas/Stage';
 import {Layer, MiLayerData} from '@components/canvas/Layer';
 import {Events} from '@components/canvas/Events';
 import {throttle} from '@components/canvas/Throttle';
@@ -169,6 +169,121 @@ export abstract class Tools extends Events {
 				(Tools as any)[i] = (attrs as any)[i];
 			}
 		}
+	}
+
+	/**
+	 * 撤销.
+	 * @return void
+	 */
+	static backward(): void {
+		const stage = Tools.getStage(),
+			layer = Tools.getLayer(),
+			data = layer.data,
+			traces = stage.traces,
+			trace = traces.length > 0 ? traces.pop() : null;
+		const recovery = () => {
+			stage.recoveries.push(trace);
+			stage.draw(true);
+		};
+		if (trace) {
+			if (trace.operation === 'clean') {
+				/** 清屏 */
+				const indexes = trace.indexes;
+				for (let i = 0, len = data.length; i < len; i++) {
+					if (indexes.includes(i)) data[i].visible = true;
+				}
+				recovery();
+			} else if (
+				trace.index !== undefined &&
+				data[trace.index]
+			) {
+				switch (trace.operation) {
+					/** 涂鸦 */
+					case 'draw':
+						data[trace.index].visible = false;
+						break;
+					/** 移动 */
+					case 'move':
+						data[trace.index].move.x -= trace.move.x;
+						data[trace.index].move.y -= trace.move.y;
+						break;
+					/** 编辑(文本) */
+					case 'edit':
+						const text = data[trace.index].text as MiTextConfig;
+						text.attrs = trace.attrs;
+						text.rect = trace.rect;
+						break;
+					/** 擦除 */
+					case 'eraser':
+						data[trace.index].visible = true;
+						break;
+				}
+				recovery();
+			}
+		}
+	}
+
+	/**
+	 * 恢复.
+	 * @return void
+	 */
+	static forward(): void {
+		const stage = Tools.getStage(),
+			data = Tools.getLayer().data,
+			recoveries = stage.recoveries,
+			recovery = recoveries.length > 0 ? recoveries.pop() : null;
+		const trace = () => stage.traces.push(recovery);
+		if (recovery) {
+			if (recovery.operation === 'clean') {
+				/** 清屏恢复 */
+				for (let i = 0, len = data.length; i < len; i++) {
+					const indexes = recovery.indexes;
+					if (indexes.includes(i)) data[i].visible = false;
+				}
+				trace();
+			} else if (
+				recovery.index !== undefined &&
+				data[recovery.index]
+			) {
+				switch (recovery.operation) {
+					/** 涂鸦 */
+					case 'draw':
+						data[recovery.index].visible = true;
+						break;
+					/** 移动 */
+					case 'move':
+						data[recovery.index].move.x += recovery.move.x;
+						data[recovery.index].move.y += recovery.move.y;
+						break;
+					/** 编辑(文本) */
+					case 'edit':
+						const text = data[recovery.index].text as MiTextConfig;
+						text.attrs = recovery.attrs;
+						text.rect = recovery.rect;
+						break;
+					/** 擦除 */
+					case 'eraser':
+						data[recovery.index].visible = false;
+						break;
+				}
+				trace();
+			}
+			stage.draw(true);
+		}
+	}
+
+	/**
+	 * 设置操作踪迹.
+	 * @param params
+	 */
+	static setTraces(params?: MiStageTracesConfig): void {
+		params = params ?? {};
+		if (params.operation === undefined) params.operation = 'draw';
+		if (
+			params.index === undefined &&
+			params.indexes === undefined
+		) params.index = Tools.getLayer().data.length - 1;
+		Tools.getStage().traces.push(params);
 	}
 
 	/**

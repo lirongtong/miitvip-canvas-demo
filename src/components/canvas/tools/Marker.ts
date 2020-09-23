@@ -158,6 +158,7 @@ export class Marker extends Tools implements MiTools {
 					tool: this.name
 				} as MiToolsSyncData;
 				this.saveLayerData(params);
+				Tools.setTraces();
 			});
 		});
 	}
