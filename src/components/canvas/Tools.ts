@@ -128,6 +128,14 @@ export abstract class Tools extends Events {
 	}
 
 	/**
+	 * 获取实例.
+	 * @return Tools
+	 */
+	static getInstances() {
+		return Tools.instances;
+	}
+
+	/**
 	 * 获取当前画布.
 	 * @return {Stage}
 	 */
@@ -332,14 +340,13 @@ export abstract class Tools extends Events {
 			tempRect.x += move.x;
 			tempRect.y += move.y;
 		}
-		/** 无限画布 */
-		if (origin) ctx.translate(origin.x, origin.y);
 		/** 缩放 */
 		if (!action && scale && scale !== 1) {
 			/** 按倍数缩放方形宽高 */
 			tempRect.width *= scale;
 			tempRect.height *= scale;
 		}
+		/** 无限画布 */
 		if (origin) ctx.translate(origin.x, origin.y);
 		ctx.rect(tempRect.x, tempRect.y, tempRect.width, tempRect.height);
 		isIn = ctx.isPointInPath(tempPoint.x, tempPoint.y);
@@ -379,6 +386,45 @@ export abstract class Tools extends Events {
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = color;
 		new Rect({...rect}).draw(ctx);
+	}
+
+	/**
+	 * 橡皮擦选中框.
+	 * @param rect
+	 * @param move
+	 * @param scale
+	 * @param origin
+	 * @param ctx
+	 */
+	protected drawEraserRect(
+		rect: MiRectConfig,
+		move?: MiPointConfig,
+		scale?: number,
+		origin?: MiPointConfig,
+		ctx?: CanvasRenderingContext2D
+	): void {
+		const color = 'rgb(255, 98, 60)',
+			rectangle = {...rect};
+		rectangle.radius = 4;
+		ctx = ctx ?? this.getCurrentContext();
+		ctx.save();
+		ctx.lineWidth = 5;
+		ctx.strokeStyle = color;
+		/** 移动 */
+		if (move) {
+			rectangle.x += move.x;
+			rectangle.y += move.y;
+		}
+		/** 无限画布 */
+		if (origin) ctx.translate(origin.x, origin.y);
+		/** 缩放 */
+		if (scale && scale !== 1) {
+			rectangle.width *= scale;
+			rectangle.height *= scale;
+		}
+		/** 绘制 */
+		new Rect({...rectangle}).draw(ctx);
+		ctx.restore();
 	}
 
 	/**

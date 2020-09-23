@@ -8,7 +8,7 @@
 				<mi-brush :active="canvas.tool" :color="canvas.brush.color" :solid="canvas.brush.solid" :icon="canvas.brush.icon" @tool-select="brushSelect" @on-show="brushSelectOnShow"></mi-brush>
 				<mi-palette :default-color="canvas.brush.color" @tool-select="colorSelect"></mi-palette>
 				<mi-thickness :default-thickness="canvas.brush.thickness" :default-opacity="canvas.brush.opacity" :active="canvas.tool !== 'brush' ? canvas.tool : canvas.brush.name" @change-thickness="thicknessSelect"></mi-thickness>
-				<mi-eraser></mi-eraser>
+				<mi-eraser :active="canvas.tool" :type="canvas.eraser" @tool-select="eraserSelect"></mi-eraser>
 				<mi-text :active="canvas.tool" :color="canvas.brush.color" :opacity="canvas.brush.opacity" :thickness="canvas.brush.thickness" @tool-select="toolSelect"></mi-text>
 				<mi-screenshot :active="canvas.active" :type="canvas.screenshot" @tool-select="cropSelect"></mi-screenshot>
 				<mi-forward></mi-forward>
@@ -445,6 +445,18 @@
 				Tools.setAttrs({thickness: value});
 				if (this.canvas.tool === 'brush') this.updateCursor();
 			}
+		}
+
+		/**
+		 * 橡皮擦.
+		 * @param type
+		 */
+		eraserSelect(type: string): void {
+			this.toolSelect('eraser');
+			this.$set(this.canvas, 'eraser', type);
+			this.stage.setActiveToolAttrs({type});
+			/** 清除屏幕 */
+			if (type === 'clean') Tools.getLayer().clear();
 		}
 
 		/**

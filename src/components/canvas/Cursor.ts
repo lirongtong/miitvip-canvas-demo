@@ -14,6 +14,7 @@ import {Canvas} from '@components/canvas/Canvas';
 import {Arc} from '@components/canvas/shapes/Arc';
 import {Tools} from '@components/canvas/Tools';
 import laser from '@images/laser.png';
+import eraser from '@images/eraser.png';
 
 export interface MiCursorConfig {
 	container: string | HTMLDivElement;     // 所属容器
@@ -93,6 +94,9 @@ export class Cursor {
 				break;
 			case 'laser':
 				cursor = `url("${laser}") 16 16, auto`;
+				break;
+			case 'eraser':
+				cursor = `url("${eraser}") 16 16, auto`;
 				break;
 			case 'circle':
 				const width = (this.radius as number) * 2,

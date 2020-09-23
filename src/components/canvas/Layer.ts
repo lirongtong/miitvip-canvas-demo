@@ -43,6 +43,13 @@ export class Layer extends MiLayer {
 	hidden: boolean;                    // 是否隐藏
 	thumb = '';                         // 图层缩略图(避免画布切换时, 需要重新生成)
 	selected = -1;                      // 选中索引
+	eraser: {                           // 橡皮擦选中内容
+		index: number;
+		selection: boolean;
+	} = {
+		index: -1,
+		selection: false
+	};
 
 	/**
 	 * 构造.
@@ -111,6 +118,17 @@ export class Layer extends MiLayer {
 					data.draw(selection);
 					this.selected = -1;
 				}
+				/** 橡皮擦选中 */
+				if (this.eraser.selection) {
+					const active = this.data[this.eraser.index] as any,
+						tool = Tools.getInstances()[active.tool];
+					if (tool) tool.drawEraserRect(
+						active.rect,
+						active.move,
+						active.scale,
+						active.origin
+					);
+				}
 			}
 		}
 	}
@@ -122,14 +140,32 @@ export class Layer extends MiLayer {
 	clear(index?: number): void {
 		if (index !== undefined) {
 			/** 清除图层内的单条数据 */
-			if (this.data && this.data[index]) this.data[index].visible = false;
+			if (this.data && this.data[index]) {
+				this.data[index].visible = false;
+				Tools.setTraces({
+					operation: 'eraser',
+					index
+				});
+			}
 		} else {
 			/** 清除整个图层数据 */
+			const indexes: number[] = [];
 			for (let i = 0, len = this.data.length; i < len; i++) {
-				if (this.data[i].visible) this.data[i].visible = false;
+				if (this.data[i].visible) {
+					this.data[i].visible = false;
+					indexes.push(i);
+				}
+			}
+			if (indexes.length > 0) {
+				Tools.setTraces({
+					operation: 'clean',
+					indexes
+				});
 			}
 		}
 		/** 重绘 */
+		this.eraser.index = -1;
+		this.eraser.selection = false;
 		Tools.getStage().draw(true);
 	}
 
