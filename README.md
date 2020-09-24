@@ -1,6 +1,8 @@
 # 涂鸦白板 - 麦可易特网
 > 当前开源代码为 Demo 版本，且为单机版的。UI 设计的相对简单，功能不尽完善，仅将做好的部分工具开源出来了，后续另有相对比较成熟的版本，集成了会议 / 文档 / 实时同步 / 在线聊天 / 用户管理等功能，重新设计了 UI，后续将提供体验地址。
 
+> Demo 体验地址：[https://canvas.makeit.vip/](https://canvas.makeit.vip/)
+
 ## 初始化
 ```
 const stage = new Stage({container: `canvas's container id`});
