@@ -2,7 +2,7 @@
 	<div class="mi-canvas-tools-item">
 		<Poptip trigger="click"
 				popper-class="mi-canvas-brush"
-				placement="top"
+				:placement="G.mobile ? 'right' : 'top'"
 				@on-popper-show="showPopper"
 				transfer>
             <span class="mi-canvas-tools-icon" :class="active === 'brush' ? 'active' : null">

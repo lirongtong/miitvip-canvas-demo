@@ -1,7 +1,7 @@
 <template>
 	<div class="mi-canvas" id="mi-canvas-container">
 		<div class="mi-canvas-content" id="mi-canvas-content"></div>
-		<div class="mi-canvas-tools" id="mi-canvas-tools">
+		<div class="mi-canvas-tools" :class="G.mobile ? 'mi-canvas-tools-mobile' : ''" id="mi-canvas-tools">
 			<div class="mi-canvas-tools-items">
 				<mi-drag :active="canvas.tool" @tool-select="toolSelect"></mi-drag>
 				<mi-selection :active="canvas.tool" @tool-select="toolSelect"></mi-selection>
@@ -18,7 +18,7 @@
 		<div class="mi-canvas-footer" id="mi-canvas-footer">
 			<mi-stages :ratio="canvas.ratio" :checked="canvas.checked" @stage-create="stageCreate" @stage-change="stageChange" @stage-delete="stageDelete"></mi-stages>
 			<mi-layers :ratio="canvas.ratio" :background="canvas.background" @stage-background="stageBackground" @layer-create="layerCreate" @layer-change="layerChange" @layer-delete="layerDelete" @layer-state="layerState"></mi-layers>
-			<mi-screenfull elem="mi-canvas-body"></mi-screenfull>
+			<mi-screenfull elem="mi-canvas-body" v-if="!G.mobile"></mi-screenfull>
 		</div>
 	</div>
 </template>

@@ -1,7 +1,7 @@
 <template>
 	<div class="mi-canvas-tools-item">
 		<Poptip trigger="click"
-				placement="top"
+				:placement="G.mobile ? 'right' : 'top'"
 				popper-class="mi-canvas-palette"
 				transfer>
             <span class="mi-canvas-tools-icon">

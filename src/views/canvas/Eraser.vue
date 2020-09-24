@@ -2,7 +2,7 @@
 	<div class="mi-canvas-tools-item">
 		<Poptip trigger="click"
 				popper-class="mi-canvas-eraser"
-				placement="top"
+				:placement="G.mobile ? 'right' : 'top'"
 				@on-popper-show="onPopperShow"
 				transfer>
             <span class="mi-canvas-tools-icon" :class="active === 'eraser' ? 'active' : null">

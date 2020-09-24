@@ -1,6 +1,6 @@
 <template>
 	<div class="mi-canvas-tools-item">
-		<Tooltip content="无限画布 ( 拖动 )" placement="top">
+		<Tooltip content="无限画布 ( 拖动 )" :placement="G.mobile ? 'right' : 'top'">
             <span class="mi-canvas-tools-icon" :class="active === 'drag' ? 'active' : null">
                 <i class="iconfont icon-drag" @click="toolSelect('drag')"></i>
             </span>

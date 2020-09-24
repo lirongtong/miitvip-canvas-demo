@@ -1,6 +1,6 @@
 <template>
 	<div class="mi-canvas-tools-item">
-		<Tooltip content="回撤" placement="top">
+		<Tooltip content="回撤" :placement="G.mobile ? 'right' : 'top'">
             <span class="mi-canvas-tools-icon">
                 <i class="iconfont icon-backward-solid" @click="backward" :style="{cursor}"></i>
             </span>

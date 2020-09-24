@@ -1,6 +1,6 @@
 <template>
 	<div class="mi-canvas-tools-item">
-		<Tooltip content="文本" placement="top">
+		<Tooltip content="文本" :placement="G.mobile ? 'right' : 'top'">
             <span class="mi-canvas-tools-icon" :class="active === 'text' ? 'active' : null">
                 <i class="iconfont icon-text" @click="toolSelect('text')"></i>
             </span>
