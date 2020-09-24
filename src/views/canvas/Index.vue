@@ -372,7 +372,7 @@
 				layer = Tools.getLayer();
 			/** 上次选中工具为 [ 选择 ] 工具, 重绘 */
 			if (
-				name === 'selection' &&
+				this.canvas.tool === 'selection' &&
 				Selection.selection !== null
 			) {
 				stage.draw(true);
@@ -380,7 +380,7 @@
 			}
 			/** 上次选中工具为 [ 橡皮擦 ] 工具, 清除后重绘 */
 			if (
-				name === 'eraser' &&
+				this.canvas.tool === 'eraser' &&
 				Tools.getLayer().eraser.selection
 			) {
 				layer.eraser.index = -1;
@@ -388,26 +388,28 @@
 				stage.draw(true);
 			}
 			/** 上次选中工具为 [ 文本 ] 工具, 清除后重绘 */
-			if (
-				name === 'text' &&
-				Text.data
-			) {
-				return new Promise((resolve) => {
-					Text.rendering(
-						Text.data as MiTextConfig,
-						true,
-						Text.instance,
-						Text.instance.layerData ? {
-							scale: Text.instance.layerData.scale,
-							move: {...Text.instance.layerData.move},
-							origin: {...Text.instance.layerData.origin},
-							rect: Utils.deepCopy(Text.instance.layerData.rect)
-						} : undefined
-					);
+			if (this.canvas.tool === 'text') {
+				const removeElem = () => {
 					const elem = document.getElementById(Text.wid);
 					if (elem) elem.remove();
-					resolve();
-				});
+				};
+				if (Text.data && Text.data.content) {
+					return new Promise((resolve) => {
+						Text.rendering(
+								Text.data as MiTextConfig,
+								true,
+								Text.instance,
+								Text.instance.layerData ? {
+									scale: Text.instance.layerData.scale,
+									move: {...Text.instance.layerData.move},
+									origin: {...Text.instance.layerData.origin},
+									rect: Utils.deepCopy(Text.instance.layerData.rect)
+								} : undefined
+						);
+						removeElem();
+						resolve();
+					});
+				} else removeElem();
 			}
 		}
 
