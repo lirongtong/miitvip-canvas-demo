@@ -64,3 +64,4 @@ fabric.properties
 .idea/sonarlint
 .idea
 node_modules
+/dist
