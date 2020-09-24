@@ -2,7 +2,7 @@
 	<div class="mi-canvas-tools-item">
 		<Poptip trigger="click"
 				:placement="G.mobile ? 'right' : 'top'"
-				popper-class="mi-canvas-palette"
+				:popper-class="G.mobile ? 'mi-canvas-palette mi-canvas-palette-mobile' : 'mi-canvas-palette'"
 				transfer>
             <span class="mi-canvas-tools-icon">
                 <div class="mi-canvas-palette-active-color" :style="{background: palette}"></div>

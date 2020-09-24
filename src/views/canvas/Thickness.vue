@@ -2,7 +2,7 @@
 	<div class="mi-canvas-tools-item">
 		<Poptip trigger="click"
 				:placement="G.mobile ? 'right' : 'top'"
-				popper-class="mi-canvas-thickness"
+				:popper-class="G.mobile ? 'mi-canvas-thickness mi-canvas-thickness-mobile' : 'mi-canvas-thickness'"
 				transfer>
             <span class="mi-canvas-tools-icon">
                 <i class="iconfont icon-thickness"></i>
