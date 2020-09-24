@@ -752,13 +752,19 @@ export abstract class Tools extends Events {
 	protected toggleToolbar(event: PointerEvent | MouseEvent | Touch): void {
 		const point = this.createPoint(event.clientX, event.clientY),
 			container = Tools.getStage().container,
+			offsetWidth = container.offsetWidth,
 			offsetHeight = container.offsetHeight;
 		const hide = () => {
 			this.toolbar = false;
 			const tools = document.getElementById('mi-canvas-tools');
 			if (tools) {
-				tools.style.bottom = '-70px';
-				tools.style.opacity = '0';
+				if (this.G.mobile) {
+					tools.style.left = '-70px';
+					tools.style.opacity = '0';
+				} else {
+					tools.style.bottom = '-70px';
+					tools.style.opacity = '0';
+				}
 			}
 			const footer = document.getElementById('mi-canvas-footer');
 			if (footer) {
@@ -770,8 +776,13 @@ export abstract class Tools extends Events {
 			this.toolbar = true;
 			const tools = document.getElementById('mi-canvas-tools');
 			if (tools) {
-				tools.style.bottom = '0';
-				tools.style.opacity = '1';
+				if (this.G.mobile) {
+					tools.style.left = '20px';
+					tools.style.opacity = '1';
+				} else {
+					tools.style.bottom = '0';
+					tools.style.opacity = '1';
+				}
 			}
 			const footer = document.getElementById('mi-canvas-footer');
 			if (footer) {
@@ -779,11 +790,20 @@ export abstract class Tools extends Events {
 				footer.style.opacity = '1';
 			}
 		};
-		if (offsetHeight - point.y <= 300) {
-			if (this.drawing) hide();
-			else if (!this.toolbar) show();
+		if (this.G.mobile) {
+			if (offsetWidth - point.x <= 300) {
+				if (this.drawing) hide();
+				else if (!this.toolbar) show();
+			} else {
+				if (!this.toolbar || !this.drawing) show();
+			}
 		} else {
-			if (!this.toolbar || !this.drawing) show();
+			if (offsetHeight - point.y <= 300) {
+				if (this.drawing) hide();
+				else if (!this.toolbar) show();
+			} else {
+				if (!this.toolbar || !this.drawing) show();
+			}
 		}
 	}
 
