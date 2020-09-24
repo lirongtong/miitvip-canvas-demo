@@ -332,7 +332,7 @@ export abstract class Tools extends Events {
 		const tempPoint = {...point},
 			tempRect = {...rect};
 		ctx = ctx ?? this.getCurrentContext()
-		let isIn;
+		let isIn = false;
 		ctx.save();
 		ctx.beginPath();
 		/** 移动 */

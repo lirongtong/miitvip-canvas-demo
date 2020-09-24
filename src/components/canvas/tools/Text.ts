@@ -28,7 +28,7 @@ export interface MiTextConfig {
 	max: {                              // 内容最大宽高(用于自动换行/控制滚动条)
 		width: number;
 		height: number;
-	}
+	};
 }
 
 export class Text extends Tools implements MiTools {
@@ -41,7 +41,7 @@ export class Text extends Tools implements MiTools {
 	protected start!: Point;                // 输入的起始坐标点
 	protected content = '';                 // 文本内容
 	/** 最大宽高(用于自动换行/控制滚动条) */
-	protected max: {width: number; height: number;} = {width: 0, height: 0};
+	protected max: {width: number; height: number} = {width: 0, height: 0};
 	/** 文本内容所占的方形区域 */
 	protected rect: MiRectConfig = {x: 0, y: 0, width: 0, height: 0};
 	protected cid = '';                     // content id
@@ -100,8 +100,8 @@ export class Text extends Tools implements MiTools {
 			ctx.textBaseline = 'top';
 			ctx.fillStyle = Utils.colorHexToRgba(attrs.color, attrs.opacity);
 			/** 细微的偏移量调整 */
-			let offset = size >= 25 ? (size >= 34 ? 4 : 5) : 6,
-				x = data.point.x - 2,
+			const offset = size >= 25 ? (size >= 34 ? 4 : 5) : 6;
+			let x = data.point.x - 2,
 				y = data.point.y - offset;
 			for (let i = 0, len = breakContent.length; i < len; i++) {
 				const charContent = breakContent[i].split('');
@@ -491,7 +491,7 @@ export class Text extends Tools implements MiTools {
 				max: this.max
 			});
 		}
-	};
+	}
 
 	/**
 	 * 判断是否编辑中.
