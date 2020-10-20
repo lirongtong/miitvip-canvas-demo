@@ -41,8 +41,8 @@ export class Screenshot extends Tools implements MiTools {
 		if (this.type === 'area' && this.rect.width < 10 && this.rect.height < 10) return ;
 		/** 开始截图 */
 		const time = Date.parse(new Date().toString()),
-			file = `mi-meeting-screenshot-${time}.webp`,
-			type = 'image/webp',
+			file = `mi-meeting-screenshot-${time}.png`,
+			type = 'image/png',
 			clipCanvas = document.createElement('canvas'),
 			screenCanvas = document.createElement('canvas'),
 			clipCtx = clipCanvas.getContext('2d') as CanvasRenderingContext2D,
