@@ -1,7 +1,7 @@
 # 涂鸦白板
 > 当前的开源代码为 Demo 版本，且为单机版的。UI 设计的相对简单，功能不尽完善，此次的 Demo 版本开源了常用的涂鸦工具，包括无限画布（拖拽）、马克笔、激光笔、圆形、矩形、橡皮擦、文本、撤销、恢复、截屏等涂鸦的常用工具，后续另有相对比较成熟的版本，集成了会议 / 文档 / 实时同步 / 在线聊天 / 用户管理等功能，同时重新设计了 UI，后续将提供体验地址。
 
-> Demo 体验地址：[https://canvas.makeit.vip/](https://canvas.makeit.vip/)
+> Demo 体验地址：[https://graffiti.makeit.vip/](https://graffiti.makeit.vip/)
 
 ## 初始化
 ```
